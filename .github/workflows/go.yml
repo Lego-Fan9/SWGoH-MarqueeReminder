@@ -29,7 +29,7 @@ jobs:
         cache-dependency-path: |
           src/go.sum
 
-    - name: Build and test UpdateNotifier
+    - name: Build and test
       run: |
         export CGO_ENABLED=0
         cd src
