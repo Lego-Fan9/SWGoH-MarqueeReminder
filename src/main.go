@@ -7,6 +7,7 @@ import (
 	"sync"
 	"syscall"
 	"time"
+	_ "time/tzdata" // this is for docker
 
 	"github.com/Lego-Fan9/MarqueeReminder/comlinkevent"
 	"github.com/Lego-Fan9/MarqueeReminder/env"

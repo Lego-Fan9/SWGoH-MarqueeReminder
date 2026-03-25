@@ -25,5 +25,6 @@ COPY --from=builder /app/MarqueeReminder ./
 COPY --from=certs /etc/ssl/certs /etc/ssl/certs
 
 ENV DOCKER=TRUE
+ENV ENV_PATH=NONE
 
 ENTRYPOINT ["./MarqueeReminder"]
