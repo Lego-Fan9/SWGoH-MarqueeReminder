@@ -54,7 +54,7 @@ func MainLoop(ctx context.Context, wg *sync.WaitGroup) {
 
 		next := time.Date(
 			now.Year(), now.Month(), now.Day(),
-			15, 0, 0, 0,
+			14, 0, 0, 0,
 			loc,
 		)
 
