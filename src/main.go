@@ -15,10 +15,21 @@ import (
 )
 
 func main() {
-	/* env.LoadTemplate()
-	MainTask()
+	/*marquees, err := comlinkevent.GetActiveMarquees()
+	if err != nil {
+		log.Errorf("Failed to get marquees: %v", err)
+
+		return
+	}
+
+	log.Infof("%+v", marquees)
 
 	return*/
+
+	env.LoadTemplate()
+	MainTask()
+
+	return
 	ctx, cancel := context.WithCancel(context.Background())
 
 	var wg sync.WaitGroup

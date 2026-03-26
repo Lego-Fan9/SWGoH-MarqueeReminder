@@ -117,8 +117,9 @@ type unitsInternal struct {
 }
 
 type ComlinkUnit struct {
-	BaseID  string `json:"baseId"`
-	NameKey string `json:"nameKey"`
+	BaseID           string `json:"baseId"`
+	NameKey          string `json:"nameKey"`
+	EraThumbnailName string `json:"eraThumbnailName"`
 }
 
 func GetUnits() ([]ComlinkUnit, error) {

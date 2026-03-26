@@ -11,10 +11,11 @@ import (
 var (
 	DISCORD_WEBHOOK string //nolint:revive
 	CUSTOM_FORMAT   string //nolint:revive
+	CUSTOM_FORMAT_IMG   string //nolint:revive
 	COMLINK_URL     string //nolint:revive
 	ENV_PATH        string //nolint:revive
 	PING_ROLE       string //nolint:revive
-	// SWGOH_AE_URL    string //nolint:revive
+	SWGOH_AE_URL    string //nolint:revive
 )
 
 var TESTING = os.Getenv("TESTING")
@@ -48,21 +49,21 @@ func Init() {
 	}
 
 	CUSTOM_FORMAT = os.Getenv("CUSTOM_FORMAT")
+	CUSTOM_FORMAT_IMG = os.Getenv("CUSTOM_FORMAT_IMG")
 
 	COMLINK_URL = os.Getenv("COMLINK_URL")
 	if COMLINK_URL == "" {
 		log.Fatal("Failed to find env: COMLINK_URL")
 	}
 
-	/* Make sure to add to .env.example
-	SWGOH_AE_URL = os.Getenv("SWGOH_AE_URL")
-	if SWGOH_AE_URL == "" {
-		log.Fatal("Failed to find env: SWGOH_AE_URL")
-	}*/
-
 	PING_ROLE = os.Getenv("PING_ROLE")
 	if PING_ROLE == "" {
 		log.Fatal("Failed to find env: PING_ROLE")
+	}
+
+	SWGOH_AE_URL = os.Getenv("SWGOH_AE_URL")
+	if SWGOH_AE_URL == "" {
+		log.Warn("SWGOH_AE_URL is not set, no assets will be displayed")
 	}
 }
 

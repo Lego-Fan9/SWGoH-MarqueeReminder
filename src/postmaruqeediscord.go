@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"mime/multipart"
 	"net/http"
 
+	"github.com/Lego-Fan9/MarqueeReminder/assetextractor"
 	"github.com/Lego-Fan9/MarqueeReminder/comlinkevent"
 	"github.com/Lego-Fan9/MarqueeReminder/env"
 	"github.com/Lego-Fan9/MarqueeReminder/httpclient"
@@ -42,6 +44,13 @@ func PostMarqueeDiscord(input comlinkevent.ComlinkEvent, localization comlinkeve
 
 	log.Infof("Found unit id: %s, nameKey: %s, localized: %s", unit.BaseID, unit.NameKey, nameKeyCorrected)
 
+	imgData, found := assetextractor.GetEventTex(unit.EraThumbnailName)
+	if found {
+		log.Infof("Found asset %s using image post", unit.EraThumbnailName)
+
+		return PostMarqueeDiscordImg(nameKeyCorrected, imgData)
+	}
+
 	data, err := env.GetMarqueeDiscordPostTemplate(env.MarqueeTemplateData{
 		Role:    env.PING_ROLE,
 		NameKey: nameKeyCorrected,
@@ -68,6 +77,65 @@ func PostMarqueeDiscord(input comlinkevent.ComlinkEvent, localization comlinkeve
 		body, _ := io.ReadAll(resp.Body)
 		log.Errorf("Bad status from discord: %s: %s", resp.Status, string(body))
 
+		return ErrBadDiscordStatus
+	}
+
+	_, _ = io.ReadAll(resp.Body)
+
+	return nil
+}
+
+func PostMarqueeDiscordImg(nameKeyCorrected string, image []byte) error {
+	var imageName = "marquee.png"
+
+	data, err := env.GetMarqueeDiscordPostTemplateImg(env.MarqueeTemplateData{
+		Role:     env.PING_ROLE,
+		NameKey:  nameKeyCorrected,
+		Filename: imageName,
+	})
+	if err != nil {
+		return err
+	}
+
+	var body bytes.Buffer
+	writer := multipart.NewWriter(&body)
+
+	if err := writer.WriteField("payload_json", data); err != nil {
+		return err
+	}
+
+	part, err := writer.CreateFormFile("files", imageName)
+	if err != nil {
+		return err
+	}
+
+	if _, err := part.Write(image); err != nil {
+		return err
+	}
+
+	if err := writer.Close(); err != nil {
+		return err
+	}
+
+	log.Infof("payload_json: %s", data)
+
+	req, err := http.NewRequest(http.MethodPost, env.DISCORD_WEBHOOK, &body)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	resp, err := httpclient.Discord(req)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		log.Errorf("Bad status from discord: %s: %s", resp.Status, string(body))
 		return ErrBadDiscordStatus
 	}
 
