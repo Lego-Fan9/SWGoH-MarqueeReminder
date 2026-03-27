@@ -25,11 +25,10 @@ func main() {
 	log.Infof("%+v", marquees)
 
 	return*/
-
-	env.LoadTemplate()
+	/*env.LoadTemplate()
 	MainTask()
 
-	return
+	return*/
 	ctx, cancel := context.WithCancel(context.Background())
 
 	var wg sync.WaitGroup

@@ -1,20 +1,21 @@
 package assetextractor
 
 import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"net/http"
+	"strings"
+
 	"github.com/Lego-Fan9/MarqueeReminder/env"
 	"github.com/Lego-Fan9/MarqueeReminder/httpclient"
-	"strings"
 	log "github.com/sirupsen/logrus"
-	"bytes"
-	"net/http"
-	"errors"
-	"io"
-	"encoding/json"
-	"fmt"
 )
 
 var (
-	BadHttpStatus = errors.New("bad http status code")
+	ErrBadHTTPStatus = errors.New("bad http status code")
 )
 
 func GetEventTex(iconName string) ([]byte, bool) {
@@ -59,7 +60,7 @@ func GetEventTex(iconName string) ([]byte, bool) {
 }
 
 func GetAssetVersion() (int, error) {
-	resp, err := httpclient.Post(env.COMLINK_URL + "/metadata", "application/json", bytes.NewBuffer([]byte("{}")))
+	resp, err := httpclient.Post(env.COMLINK_URL+"/metadata", "application/json", bytes.NewBuffer([]byte("{}")))
 	if err != nil {
 		log.Errorf("Failed to make metadata call: %v", err)
 
@@ -72,13 +73,13 @@ func GetAssetVersion() (int, error) {
 	if err != nil {
 		log.Errorf("io read fail: %v", err)
 
-		return 0, BadHttpStatus
+		return 0, ErrBadHTTPStatus
 	}
 
 	if resp.StatusCode != http.StatusOK {
 		log.Errorf("Bad status code getting metadata: %s: %s", resp.Status, string(body))
 
-		return 0, BadHttpStatus
+		return 0, ErrBadHTTPStatus
 	}
 
 	var metadata assetVersionMetadata

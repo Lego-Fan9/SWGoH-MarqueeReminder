@@ -18,6 +18,7 @@ var (
 	ErrBadDiscordStatus = errors.New("bad status code from discord")
 )
 
+//nolint:funlen
 func PostMarqueeDiscord(input comlinkevent.ComlinkEvent, localization comlinkevent.ComlinkLocalization, units []comlinkevent.ComlinkUnit) error {
 	var unit comlinkevent.ComlinkUnit
 
@@ -85,6 +86,7 @@ func PostMarqueeDiscord(input comlinkevent.ComlinkEvent, localization comlinkeve
 	return nil
 }
 
+//nolint:funlen
 func PostMarqueeDiscordImg(nameKeyCorrected string, image []byte) error {
 	var imageName = "marquee.png"
 
@@ -98,9 +100,11 @@ func PostMarqueeDiscordImg(nameKeyCorrected string, image []byte) error {
 	}
 
 	var body bytes.Buffer
+
 	writer := multipart.NewWriter(&body)
 
-	if err := writer.WriteField("payload_json", data); err != nil {
+	err = writer.WriteField("payload_json", data)
+	if err != nil {
 		return err
 	}
 
@@ -109,11 +113,13 @@ func PostMarqueeDiscordImg(nameKeyCorrected string, image []byte) error {
 		return err
 	}
 
-	if _, err := part.Write(image); err != nil {
+	_, err = part.Write(image)
+	if err != nil {
 		return err
 	}
 
-	if err := writer.Close(); err != nil {
+	err = writer.Close()
+	if err != nil {
 		return err
 	}
 
@@ -136,6 +142,7 @@ func PostMarqueeDiscordImg(nameKeyCorrected string, image []byte) error {
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		log.Errorf("Bad status from discord: %s: %s", resp.Status, string(body))
+
 		return ErrBadDiscordStatus
 	}
 

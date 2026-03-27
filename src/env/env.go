@@ -9,13 +9,13 @@ import (
 )
 
 var (
-	DISCORD_WEBHOOK string //nolint:revive
-	CUSTOM_FORMAT   string //nolint:revive
-	CUSTOM_FORMAT_IMG   string //nolint:revive
-	COMLINK_URL     string //nolint:revive
-	ENV_PATH        string //nolint:revive
-	PING_ROLE       string //nolint:revive
-	SWGOH_AE_URL    string //nolint:revive
+	DISCORD_WEBHOOK   string //nolint:revive
+	CUSTOM_FORMAT     string //nolint:revive
+	CUSTOM_FORMAT_IMG string //nolint:revive
+	COMLINK_URL       string //nolint:revive
+	ENV_PATH          string //nolint:revive
+	PING_ROLE         string //nolint:revive
+	SWGOH_AE_URL      string //nolint:revive
 )
 
 var TESTING = os.Getenv("TESTING")
