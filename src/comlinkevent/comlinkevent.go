@@ -47,7 +47,9 @@ func GetActiveMarquees() ([]ComlinkEvent, error) {
 		}
 
 		now := time.Now().Unix()
-		if now >= event.StartTime && now <= event.EndTime {
+		cutoff := now + int64(6*time.Hour.Seconds())
+
+		if now >= event.StartTime && event.EndTime > cutoff {
 			activeMarquees = append(activeMarquees, event)
 		}
 	}
