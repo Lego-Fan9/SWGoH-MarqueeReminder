@@ -53,8 +53,10 @@ func PostMarqueeDiscord(input comlinkevent.ComlinkEvent, localization comlinkeve
 	}
 
 	data, err := env.GetMarqueeDiscordPostTemplate(env.MarqueeTemplateData{
-		Role:    env.PING_ROLE,
-		NameKey: nameKeyCorrected,
+		Role:     env.PING_ROLE,
+		NameKey:  nameKeyCorrected,
+		Username: env.DISCORD_USERNAME,
+		Avatar:   env.AVATAR_URL,
 	})
 	if err != nil {
 		return err
@@ -94,6 +96,8 @@ func PostMarqueeDiscordImg(nameKeyCorrected string, image []byte) error {
 		Role:     env.PING_ROLE,
 		NameKey:  nameKeyCorrected,
 		Filename: imageName,
+		Username: env.DISCORD_USERNAME,
+		Avatar:   env.AVATAR_URL,
 	})
 	if err != nil {
 		return err

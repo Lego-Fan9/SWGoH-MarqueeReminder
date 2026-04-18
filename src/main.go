@@ -119,3 +119,11 @@ func MainTask() {
 		}
 	}
 }
+
+// DO NOT USE
+// This function is here with the intent of being used
+// In MainTask() via copy paste.
+func DoNotUseMarqueeTest() {
+	marquees := []comlinkevent.ComlinkEvent{comlinkevent.GetTestMarquee()}
+	_ = marquees[0].FixTimes(0)
+}

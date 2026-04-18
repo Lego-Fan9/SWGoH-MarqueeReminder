@@ -12,6 +12,8 @@ import (
 
 const DefaultTemplate = `
 {
+  "avatar_url": "{{ .Avatar }}",
+  "username": "{{ .Username }}",
   "content": "<@&{{ .Role }}>",
   "embeds": [
     {
@@ -24,6 +26,8 @@ const DefaultTemplate = `
 
 const DefaultTemplateImg = `
 {
+  "avatar_url": "{{ .Avatar }}",
+  "username": "{{ .Username }}",
   "content": "<@&{{ .Role }}>",
   "embeds": [
     {
@@ -46,6 +50,8 @@ type MarqueeTemplateData struct {
 	Role     string
 	NameKey  string
 	Filename string
+	Username string
+	Avatar   string
 }
 
 var ErrTemplateUse = errors.New("template.go: unknown error using template")

@@ -2,6 +2,7 @@ package comlinkevent
 
 import (
 	"strconv"
+	"time"
 )
 
 //nolint:revive
@@ -41,4 +42,26 @@ func (c *ComlinkEvent) FixTimes(instanceCount int) error {
 	c.EndTime /= 1000
 
 	return nil
+}
+
+func GetTestMarquee() ComlinkEvent {
+	now := time.Now()
+
+	return ComlinkEvent{
+		Instance: []struct {
+			StartTime string `json:"startTime"`
+			EndTime   string `json:"endTime"`
+		}{
+			{
+				StartTime: strconv.FormatInt(now.Add(-24*time.Hour).UnixMilli(), 10),
+				EndTime:   strconv.FormatInt(now.Add(24*time.Hour).UnixMilli(), 10),
+			},
+		},
+		ID:                "EVENT_MARQUEE_KXSECURITYDROID",
+		NameKey:           "EVENT_MARQUEE_KXSECURITYDROID_NAME",
+		SummaryKey:        "EVENT_MARQUEE_KXSECURITYDROID_SUMMARY",
+		DescKey:           "EVENT_MARQUEE_GENERIC_DAILY_DESC",
+		Image:             "tex.events_kxsecuritydroid",
+		MarqueeUnitBaseID: "KXSECURITYDROID",
+	}
 }

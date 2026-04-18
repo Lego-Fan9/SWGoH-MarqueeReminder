@@ -24,6 +24,9 @@ linters:
       replace-local: true
     lll:
       line-length: 160
+    gosec:
+      excludes:
+        - G704
   exclusions:
     generated: lax
     presets:

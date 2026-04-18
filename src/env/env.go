@@ -16,6 +16,8 @@ var (
 	ENV_PATH          string //nolint:revive
 	PING_ROLE         string //nolint:revive
 	SWGOH_AE_URL      string //nolint:revive
+	AVATAR_URL        string //nolint:revive
+	DISCORD_USERNAME  string //nolint:revive
 )
 
 var TESTING = os.Getenv("TESTING")
@@ -28,12 +30,17 @@ func init() {
 	}
 }
 
+//nolint:cyclop
 func Init() {
 	temp_env := os.Getenv("ENV_PATH") //nolint:revive
 	if temp_env != "" {
 		ENV_PATH = temp_env
 	} else {
 		ENV_PATH = ".env"
+	}
+
+	if os.Getenv("DOCKER") == "Y" {
+		ENV_PATH = "NONE"
 	}
 
 	if ENV_PATH != "NONE" && ENV_PATH != "" {
@@ -64,6 +71,20 @@ func Init() {
 	SWGOH_AE_URL = os.Getenv("SWGOH_AE_URL")
 	if SWGOH_AE_URL == "" {
 		log.Warn("SWGOH_AE_URL is not set, no assets will be displayed")
+	}
+
+	AVATAR_URL = os.Getenv("AVATAR_URL")
+	if AVATAR_URL == "" {
+		log.Warn("AVATAR_URL is not set, using default")
+
+		AVATAR_URL = "https://i.ibb.co/4g9R2sm7/swgoh-updates-icon.webp"
+	}
+
+	DISCORD_USERNAME = os.Getenv("DISCORD_USERNAME")
+	if DISCORD_USERNAME == "" {
+		log.Warn("DISCORD_USERNAME is not set, using default")
+
+		DISCORD_USERNAME = "Marquee Reminders"
 	}
 }
 
