@@ -88,7 +88,7 @@ type locInternal struct {
 type ComlinkLocalization map[string]string
 
 func GetLocalization() (ComlinkLocalization, error) {
-	var url = "https://raw.githubusercontent.com/swgoh-utils/gamedata/refs/heads/main/Loc_ENG_US.txt.json"
+	var url = "https://gamedata.c3po.wtf/Loc_ENG_US.txt.json"
 
 	resp, err := httpclient.Get(url)
 	if err != nil {
@@ -125,7 +125,7 @@ type ComlinkUnit struct {
 }
 
 func GetUnits() ([]ComlinkUnit, error) {
-	var url = "https://raw.githubusercontent.com/swgoh-utils/gamedata/refs/heads/main/units.json"
+	var url = "https://gamedata.c3po.wtf/units.json"
 
 	resp, err := httpclient.Get(url)
 	if err != nil {
